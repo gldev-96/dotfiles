@@ -1,0 +1,13 @@
+configuration{
+
+   show-icons: false;
+   modi: "drun";
+   line-padding: 10;
+   matching: "fuzzy";
+   bw: 0;
+   hide-scrollbar: true;
+   display-drun: "App";
+
+}
+
+@theme "nord"
