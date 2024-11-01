@@ -34,11 +34,10 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 # and nm-applet is a desktop environment-independent system tray GUI for it.
 exec --no-startup-id nm-applet
 
-# Use pactl to adjust volume in PulseAudio.
-set $refresh_i3status killall -SIGUSR1 i3status
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
+# Volume
+bindsym XF86AudioRaiseVolume exec amixer -q -D pulse sset Master 5%+ && pkill -RTMIN+10 i3blocks 
+bindsym XF86AudioLowerVolume exec amixer -q -D pulse sset Master 5%- && pkill -RTMIN+10 i3blocks
+bindsym XF86AudioMute exec amixer -q -D pulse sset Master toggle && pkill -RTMIN+10 i3blocks
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
 
 # Use Mouse+$mod to drag floating windows to their wanted position
@@ -54,13 +53,8 @@ bindsym $mod+Return exec kitty
 # kill focused window
 bindsym $mod+Shift+q kill
 
-# start dmenu (a program launcher)
+# start rofi (a program launcher)
 bindsym $mod+d exec --no-startup-id rofi -show drun 
-# A more modern dmenu replacement is rofi:
-# bindcode $mod+40 exec "rofi -modi drun,run -show drun"
-# There also is i3-dmenu-desktop which only displays applications shipping a
-# .desktop file. It is a wrapper around dmenu, so you need that installed.
-# bindcode $mod+40 exec --no-startup-id i3-dmenu-desktop
 
 # change focus
 bindsym $mod+j focus left
@@ -199,6 +193,22 @@ bindsym $mod+r mode "resize"
 
 ##STOP THEMING WM
 
+bar {
+        status_command i3blocks
+        font pango:FiraCode Nerd Font 10
+
+        colors {
+	    background #2E3440
+	    statusline #ECEFF4
+	    separator  #ECEFF4
+
+	    focused_workspace  #5E81AC #3B4252 #ECEFF4
+	    active_workspace   #333333 #3B4252 #FFFFFF
+	    inactive_workspace #333333 #3B4252 #888888
+	    urgent_workspace   #333333 #BF616A #FFFFFF
+	    binding_mode       #333333 #BF616A #FFFFFF
+	  }
+}
 
 #Disable borders
 for_window [class="^.*"] border pixel 2
@@ -211,5 +221,8 @@ exec --no-startup-id feh --bg-scale ~/Pictures/mountains.png
 # Compositor
 exec --no-startup-id picom --config ~/.config/picom/picom.conf
 
-# Polybar
-exec --no-startup-id polybar
+# Volumeicon
+exec --no-startup-id  volumeicon
+
+# Notifications
+exec --no-startup-id dunst -config ~/.config/dunst/dunstrc
