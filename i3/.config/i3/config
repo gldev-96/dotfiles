@@ -48,7 +48,7 @@ floating_modifier $mod
 tiling_drag modifier titlebar
 
 # start a terminal
-bindsym $mod+Return exec kitty
+bindsym $mod+Return exec alacritty
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -195,7 +195,7 @@ bindsym $mod+r mode "resize"
 
 bar {
         status_command i3blocks
-        font pango:FiraCode Nerd Font 10
+        font pango:JetBrainsMono Nerd Font 10
 
         colors {
 	    background #2E3440
@@ -221,7 +221,7 @@ exec --no-startup-id feh --bg-scale ~/Pictures/mountains.png
 # Compositor
 exec --no-startup-id picom --config ~/.config/picom/picom.conf
 
-# Volumeicon
+# Volume icon
 exec --no-startup-id  volumeicon
 
 # Notifications
